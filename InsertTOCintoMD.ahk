@@ -59,7 +59,7 @@ SaveMD(filename,marker,heading,toc)
 		}
 	 ; Create backup for safety
 	 FileCopy, %filename%, %filename%.bak, 1
-	 file:=RegExReplace(file, updatetoc, m1 heading toc "`n" m2)
+	 file:=RegExReplace(file, updatetoc, m1 heading toc "`n`n" m2)
 	 FileDelete, %filename%
 	 FileAppend, %file%, %filename%
 	}
@@ -88,7 +88,6 @@ CreateToc(IDs)
 		 	aline:=RegExReplace(aline,"iU)^.*name=['\""]*(.*)['\""]*></a>.*$","$1")
 		 StringReplace,aline,aline,%A_Space%,-,All
 		 StringLower, aline, aline
-		 ;      * [Clipboard  <a name="scripts-clipboard"></a>](#clipboard--<a-name="scripts-clipboard"></a>)
 		 toc .= pad(tocIndent,tocIndexShow,tocIndex) " [" tline "](#" trim(aline,"'""") ")`n" 
 		 tocIndexShow:=0
 		}
