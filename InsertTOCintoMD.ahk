@@ -83,9 +83,13 @@ CreateToc(IDs)
 		   	}	
 		 tline:=Trim(line,"# ")
 		 aline:=RegExReplace(tline,"m)[\'\?\(\)\&]")
+		 tline:=RegExReplace(tline,"i)\s*<a.*/a>\s*")
+		 if InStr(aline,"a name=")
+		 	aline:=RegExReplace(aline,"iU)^.*name=['\""]*(.*)['\""]*></a>.*$","$1")
 		 StringReplace,aline,aline,%A_Space%,-,All
 		 StringLower, aline, aline
-		 toc .= pad(tocIndent,tocIndexShow,tocIndex) " [" tline "](#" aline ")`n" 
+		 ;      * [Clipboard  <a name="scripts-clipboard"></a>](#clipboard--<a-name="scripts-clipboard"></a>)
+		 toc .= pad(tocIndent,tocIndexShow,tocIndex) " [" tline "](#" trim(aline,"'""") ")`n" 
 		 tocIndexShow:=0
 		}
 	 toc:=Trim(toc,"`n")
